@@ -274,9 +274,16 @@ describe("Add New Listing Page", () => {
             const hallImage = "images/hall.jpg";
             const kitchenImage = "images/kitchen.jpg";
             const livingRoomImage = "images/living-room.jpg";
+            const roomNamesArray = [
+                "Hall",
+                "Living Room",
+                "Kitchen",
+                "Bathroom",
+                "Bedroom 1",
+                "Bedroom 2",
+            ];
             cy.intercept("PUT", "**/listing_photos").as("submitPhotosStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/photos/${listingId}`);
-
             addNewListingPage
                 .uploadPhotosInput()
                 .attachFile([
@@ -291,52 +298,95 @@ describe("Add New Listing Page", () => {
                 .mainPhotoBadge()
                 .should("be.visible")
                 .and("have.text", "Main photo");
-            // addNewListingPage.photosContainer().each((item, index, arr) => {
-            //     cy.wrap(item)
-            //         .find('input[type="text"]')
-            //         .invoke("attr", "name")
-            //         .then((name) => {
-            //             if (name == "listingPhotos[0].description") {
-            //                 console.log("ewerdsdfsdfsdfsdf111111");
-            //                 console.log(item, index);
-            //                 cy.wrap(arr[index])
-            //                     .find('input[type="text"]')
-            //                     .type("Bathroom");
-            //             }
-            //         });
-            //     for (let i =0, i < 6, i++) {}
+            addNewListingPage
+                .photosContainer()
+                .children()
+                .each((item, index) => {
+                    cy.wrap(item)
+                        .find('input[type="text"]')
+                        .invoke("attr", "name")
+                        .then((name) => {
+                            switch (name) {
+                                case `listingPhotos[${index}].description`:
+                                    cy.wrap(item)
+                                        .find('input[type="text"]')
+                                        .type(roomNamesArray[index])
+                                        .should(
+                                            "have.value",
+                                            roomNamesArray[index]
+                                        );
+                                    break;
+                            }
+                        });
+                });
+            addNewListingPage.nextButton().click();
+            cy.wait("@submitPhotosStep").then((interception) => {
+                assert.equal(interception.response.statusCode, "200");
+            });
+        });
 
-            // .then((name) => {
-            //     switch (name) {
-            //         case "listingPhotos[0].description":
-            //             console.log(name);
-            //             cy.wrap(item)
-            //                 .find('input[type="text"]')
-            //                 .type("Bathroom");
-            //         case "listingPhotos[1].description":
-            //             cy.wrap(item)
-            //                 .find('input[type="text"]')
-            //                 .type("Bedroom 1");
-            //         case "listingPhotos[2].description":
-            //             cy.wrap(item)
-            //                 .find('input[type="text"]')
-            //                 .type("Bedroom 2");
-            //         default:
-            //             console.log(name);
-            //     }
-            // });
-            // });
+        it("should be able to submit Description", () => {
+            cy.intercept("PUT", "**/listing_description").as(
+                "submitDescriptionStep"
+            );
+            cy.visit(`${ADD_NEW_LISTING_URL}/description/${listingId}`);
+            addNewListingPage
+                .listingTitleInput()
+                .clear()
+                .type(AddNewListingTexts.ListingTitle)
+                .should("have.value", AddNewListingTexts.ListingTitle);
+            addNewListingPage
+                .hiddenTitleInput()
+                .clear()
+                .type(AddNewListingTexts.ListingHiddenTitle)
+                .should("have.value", AddNewListingTexts.ListingHiddenTitle);
+            addNewListingPage
+                .descriptionInput()
+                .clear()
+                .type(AddNewListingTexts.ListingDecription)
+                .should("have.text", AddNewListingTexts.ListingDecription);
+            addNewListingPage.nextButton().click();
+            cy.wait("@submitDescriptionStep").then((interception) => {
+                const responseBody = interception.response.body;
+                assert.equal(interception.response.statusCode, "200");
+                assert.equal(responseBody.data.type, "listing_description");
+            });
+        });
 
-            // for (let n = 0; n < addNewListingPage.photosContainer(); n++) {
-            //     cy.contains(item)
-            //         .parent()
-            //         .find("span[aria-label='Increase Value']")
-            //         .click();
-            // }
+        it("should be able to submit House rules", () => {
+            cy.intercept("PUT", "**/house_rules").as("submitHouseRulesStep");
+            cy.visit(`${ADD_NEW_LISTING_URL}/house-rules/${listingId}`);
+            addNewListingPage
+                .houseRulesSwitchesContainer()
+                .children()
+                .each((item) => {
+                    cy.wrap(item)
+                        .find('[role="switch"]')
+                        .should("have.attr", "aria-checked", "false")
+                        .click()
+                        .should("have.attr", "aria-checked", "true");
+                });
+            addNewListingPage.nextButton().click();
+            cy.wait("@submitHouseRulesStep").then((interception) => {
+                const responseBody = interception.response.body;
+                assert.equal(interception.response.statusCode, "200");
+                assert.equal(responseBody.data[0].type, "listing_house_rule");
+            });
+        });
+
+        it("should be able to submit Reservation Preferences", () => {
+            cy.intercept("PUT", "**/reservation_preference").as(
+                "submitReservationPreferencesStep"
+            );
+            cy.visit(
+                `${ADD_NEW_LISTING_URL}/reservation-preferences/${listingId}`
+            );
 
             // addNewListingPage.nextButton().click();
-            // cy.wait("@submitPhotosStep").then((interception) => {
+            // cy.wait("@submitReservationPreferencesStep").then((interception) => {
+            //     const responseBody = interception.response.body;
             //     assert.equal(interception.response.statusCode, "200");
+            //     assert.equal(responseBody.data.type, "listing_reservation_preference");
             // });
         });
     });

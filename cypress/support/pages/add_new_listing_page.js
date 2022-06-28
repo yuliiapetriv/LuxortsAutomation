@@ -142,4 +142,32 @@ export default class {
             .children()
             .last();
     }
+
+    listingTitleInput() {
+        return cy.get("input[name='title']");
+    }
+
+    listingTitleLabel() {
+        return cy.get("label[for='title']");
+    }
+
+    hiddenTitleInput() {
+        return cy.get("input[name='hiddenTitle']");
+    }
+
+    hiddenTitleLabel() {
+        return cy.get("label[for='hiddenTitle']");
+    }
+
+    descriptionInput() {
+        return cy.get("textarea[name='description']");
+    }
+
+    descriptionLabel() {
+        return cy.get("label[for='description']");
+    }
+
+    houseRulesSwitchesContainer() {
+        return cy.get(".new-listing__switches");
+    }
 }
