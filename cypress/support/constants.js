@@ -134,4 +134,8 @@ export const AddNewListingTexts = {
     ListingHiddenTitle: "4101 Warren Ave",
     ListingDecription:
         "Kick back and relax in this calm, stylish newly remodeled cottage. With a perfect mix of vintage and modern amenities, this cottage is a unique space that has been thoughtfully curated and designed for guests.",
+    PriorNotify: "Same day",
+    BookInAdvance: "3 Months In Advance",
+    BookingApprovalPolicy: "Instant Book",
+    CancellationPolicy: "Moderate",
 };

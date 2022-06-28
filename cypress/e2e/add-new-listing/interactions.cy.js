@@ -14,12 +14,13 @@ let listingId = undefined;
 describe("Add New Listing Page", () => {
     beforeEach(() => {
         cy.signIn(Email.Registered, Password.Registered);
-        cy.visit(ADD_NEW_LISTING_URL);
+        // cy.visit(ADD_NEW_LISTING_URL);
     });
 
     context("User", () => {
         it("should be able to submit Property Type", () => {
             cy.intercept("POST", "**/listings").as("createListing");
+            cy.visit(ADD_NEW_LISTING_URL);
             const checkTypeOfPlace = (typeOfPlaceElement) => {
                 typeOfPlaceElement.click();
                 typeOfPlaceElement.should(
@@ -381,13 +382,113 @@ describe("Add New Listing Page", () => {
             cy.visit(
                 `${ADD_NEW_LISTING_URL}/reservation-preferences/${listingId}`
             );
-
-            // addNewListingPage.nextButton().click();
-            // cy.wait("@submitReservationPreferencesStep").then((interception) => {
-            //     const responseBody = interception.response.body;
-            //     assert.equal(interception.response.statusCode, "200");
-            //     assert.equal(responseBody.data.type, "listing_reservation_preference");
-            // });
+            // When do you need to be notified prior to the arrival of the guests?
+            cy.contains(AddNewListingTexts.PriorNotify)
+                .parent()
+                .find('input[type="radio"]')
+                .first()
+                .check()
+                .parent()
+                .should("have.class", "ant-radio-checked");
+            cy.contains(AddNewListingTexts.PriorNotify)
+                .parent()
+                .find(".container-two-items")
+                .find('input[type="search"]')
+                .click();
+            addNewListingPage
+                .priorNotifiedTimeList()
+                .next()
+                .find(".rc-virtual-list-holder-inner")
+                .should("be.visible")
+                .children()
+                .first()
+                .click();
+            // When can guests check in?
+            const selectCheckInCheckOutDates = ({
+                checkType,
+                optionsList,
+                time,
+            }) => {
+                checkType().click();
+                optionsList()
+                    .next()
+                    .find(".rc-virtual-list-holder-inner")
+                    .should("be.visible")
+                    .children()
+                    .eq(time)
+                    .click();
+            };
+            selectCheckInCheckOutDates({
+                checkType: addNewListingPage.checkinStartInput,
+                optionsList: addNewListingPage.checkinStartList,
+                time: 0,
+            });
+            selectCheckInCheckOutDates({
+                checkType: addNewListingPage.checkinEndInput,
+                optionsList: addNewListingPage.checkinEndList,
+                time: 5,
+            });
+            // How far in advance can guests book?
+            cy.contains(AddNewListingTexts.BookInAdvance)
+                .find('input[type="radio"]')
+                .check()
+                .parent()
+                .should("have.class", "ant-radio-checked");
+            // How long can guests stay?
+            const selectMinAndMaxNightsNumber = ({ nightLabel, count }) => {
+                nightLabel()
+                    .parent()
+                    .next()
+                    .find("input")
+                    .clear()
+                    .type(count)
+                    .should("have.value", count);
+            };
+            selectMinAndMaxNightsNumber({
+                nightLabel: addNewListingPage.minNightsLabel,
+                count: "3",
+            });
+            selectMinAndMaxNightsNumber({
+                nightLabel: addNewListingPage.maxNightsLabel,
+                count: "14",
+            });
+            // How much time do you need to prepare your space between reservations?
+            addNewListingPage.preparationTimeInput().click({ force: true });
+            addNewListingPage
+                .preparationTimeList()
+                .next()
+                .find(".rc-virtual-list-holder-inner")
+                .should("be.visible")
+                .children()
+                .eq(1)
+                .click();
+            // Booking approval / Cancellation policy
+            const checkBookingApprovalAndCancellationPolicy = ({
+                policyType,
+            }) => {
+                cy.contains(policyType)
+                    .find('input[type="radio"]')
+                    .check()
+                    .parent()
+                    .should("have.class", "ant-radio-checked");
+            };
+            checkBookingApprovalAndCancellationPolicy({
+                policyType: AddNewListingTexts.BookingApprovalPolicy,
+            });
+            checkBookingApprovalAndCancellationPolicy({
+                policyType: AddNewListingTexts.CancellationPolicy,
+            });
+            addNewListingPage.nextButton().click();
+            cy.wait("@submitReservationPreferencesStep").then(
+                (interception) => {
+                    const responseBody = interception.response.body;
+                    assert.equal(interception.response.statusCode, "200");
+                    assert.equal(
+                        responseBody.data.type,
+                        "listing_reservation_preference"
+                    );
+                }
+            );
         });
     });
 });

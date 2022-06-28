@@ -170,4 +170,40 @@ export default class {
     houseRulesSwitchesContainer() {
         return cy.get(".new-listing__switches");
     }
+
+    priorNotifiedTimeList() {
+        return cy.get("#priorNotifiedTime_list");
+    }
+
+    checkinStartInput() {
+        return cy.get("#checkinStart");
+    }
+
+    checkinEndInput() {
+        return cy.get("#checkinEnd");
+    }
+
+    checkinStartList() {
+        return cy.get("#checkinStart_list");
+    }
+
+    checkinEndList() {
+        return cy.get("#checkinEnd_list");
+    }
+
+    minNightsLabel() {
+        return cy.get('label[for="minNights"]');
+    }
+
+    maxNightsLabel() {
+        return cy.get('label[for="maxNights"]');
+    }
+
+    preparationTimeInput() {
+        return cy.get("#preparationTime");
+    }
+
+    preparationTimeList() {
+        return cy.get("#preparationTime_list");
+    }
 }
