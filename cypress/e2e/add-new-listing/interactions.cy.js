@@ -3,7 +3,6 @@ import {
     Email,
     ADD_NEW_LISTING_URL,
     AddNewListingTexts,
-    CommonTexts,
 } from "../../support/constants";
 import AddNewListingPage from "../../support/pages/add_new_listing_page";
 
@@ -14,11 +13,10 @@ let listingId = undefined;
 describe("Add New Listing Page", () => {
     beforeEach(() => {
         cy.signIn(Email.Registered, Password.Registered);
-        // cy.visit(ADD_NEW_LISTING_URL);
     });
 
     context("User", () => {
-        it("should be able to submit Property Type", () => {
+        it("should be able to select Property Type for a new listing", () => {
             cy.intercept("POST", "**/listings").as("createListing");
             cy.visit(ADD_NEW_LISTING_URL);
             const checkTypeOfPlace = (typeOfPlaceElement) => {
@@ -52,7 +50,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Accommodations", () => {
+        it("should be able to specify Accommodations for a new listing", () => {
             cy.intercept("PUT", "**/listing_accomodation").as(
                 "submitAccomodationStep"
             );
@@ -118,7 +116,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Location", () => {
+        it("should be able to specify Location for a new listing", () => {
             cy.intercept("PUT", "**/listing_location").as("submitLocationStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/location/${listingId}`);
             const selectCountryOrState = ({
@@ -197,7 +195,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Amenities", () => {
+        it("should be able to specify Amenities for a new listing", () => {
             cy.intercept("PUT", "**/amenities").as("submitAmenitiesStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/amenities/${listingId}`);
 
@@ -226,7 +224,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Capabilities", () => {
+        it("should be able to specify Capabilities for a new listing", () => {
             cy.intercept("PUT", "**/capabilities").as("submitCapabilitiesStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/capabilities/${listingId}`);
             addNewListingPage.checkbox().as("capabilitiesCheckboxes").check();
@@ -241,7 +239,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Services", () => {
+        it("should be able to specify Services for a new listing", () => {
             cy.intercept("PUT", "**/services").as("submitServicesStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/services/${listingId}`);
             addNewListingPage.checkbox().as("servicesCheckboxes").check();
@@ -268,7 +266,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Photos", () => {
+        it("should be able to upload Photos for a new listing", () => {
             const bathroomImage = "images/bathroom.jpg";
             const bedroomImage1 = "images/bedroom-1.jpg";
             const bedroomImage2 = "images/bedroom-2.jpg";
@@ -326,7 +324,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Description", () => {
+        it("should be able to add Description for a new listing", () => {
             cy.intercept("PUT", "**/listing_description").as(
                 "submitDescriptionStep"
             );
@@ -354,7 +352,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit House rules", () => {
+        it("should be able to specify House rules for a new listing", () => {
             cy.intercept("PUT", "**/house_rules").as("submitHouseRulesStep");
             cy.visit(`${ADD_NEW_LISTING_URL}/house-rules/${listingId}`);
             addNewListingPage
@@ -375,7 +373,7 @@ describe("Add New Listing Page", () => {
             });
         });
 
-        it("should be able to submit Reservation Preferences", () => {
+        it("should be able to specify Reservation Preferences for a new listing", () => {
             cy.intercept("PUT", "**/reservation_preference").as(
                 "submitReservationPreferencesStep"
             );
