@@ -207,15 +207,20 @@ describe("Add New Listing Page", () => {
                     .check()
                     .should("have.value", "true");
             };
-            checkAllAmenitiesWithinAmenityGroup({
-                amenityGroup: AddNewListingTexts.BedroomAmenityGroup,
-            });
-            checkAllAmenitiesWithinAmenityGroup({
-                amenityGroup: AddNewListingTexts.BathroomAmenityGroup,
-            });
-            checkAllAmenitiesWithinAmenityGroup({
-                amenityGroup: AddNewListingTexts.KitchenAmenityGroup,
-            });
+            addNewListingPage
+                .form()
+                .find("h2.new-listing__subtitle")
+                .each((item) => {
+                    cy.wrap(item)
+                        .invoke("text")
+                        .then((text) => {
+                            if (text != "Additional amenities") {
+                                checkAllAmenitiesWithinAmenityGroup({
+                                    amenityGroup: text,
+                                });
+                            }
+                        });
+                });
             addNewListingPage.nextButton().click();
             cy.wait("@submitAmenitiesStep").then((interception) => {
                 const responseBody = interception.response.body;

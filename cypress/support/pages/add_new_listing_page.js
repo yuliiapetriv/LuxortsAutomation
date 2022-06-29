@@ -111,6 +111,10 @@ export default class {
         return cy.get(".new-listing__map");
     }
 
+    form() {
+        return cy.get("form");
+    }
+
     checkbox() {
         return cy.get('input[type="checkbox"]');
     }
