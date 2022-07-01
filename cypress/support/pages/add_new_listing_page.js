@@ -210,4 +210,36 @@ export default class {
     preparationTimeList() {
         return cy.get("#preparationTime_list");
     }
+
+    basePriceInput() {
+        return cy.get('input[id="pricePerDay"]');
+    }
+
+    basePriceLabel() {
+        return cy.get('label[for="pricePerDay"]');
+    }
+
+    weeklyDiscountInput() {
+        return cy.get('input[id="weeklyDiscount"]');
+    }
+
+    weeklyDiscountLabel() {
+        return cy.get('label[for="weeklyDiscount"]');
+    }
+
+    mounthlyDiscountInput() {
+        return cy.get('input[id="mounthlyDiscount"]');
+    }
+
+    mounthlyDiscountLabel() {
+        return cy.get('label[for="mounthlyDiscount"]');
+    }
+
+    cleaningFeeInput() {
+        return cy.get('input[id="extraCharges"]');
+    }
+
+    cleaningFeeLabel() {
+        return cy.get('label[for="extraCharges"]');
+    }
 }
