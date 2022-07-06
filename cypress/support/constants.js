@@ -114,9 +114,10 @@ export const NotFoundTexts = {
 };
 
 export const AddNewListingTexts = {
+    SaveAndExitButton: "Save and exit",
     PropertyTypeStep: "Property type",
     PropertyTypeStepHeader: "What kind of place are you listing?",
-    TypeOfPlaceSectionHeader: "Type of place guests will have",
+    TypeOfPlaceSectionSubHeader: "Type of place guests will have",
     EntirePlace: "Entire place",
     PrivateRoom: "Private room",
     SharedRoom: "Shared room",

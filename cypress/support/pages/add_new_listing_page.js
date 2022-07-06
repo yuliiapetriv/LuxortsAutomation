@@ -3,6 +3,10 @@ export default class {
         return cy.get("h1");
     }
 
+    subHeader() {
+        return cy.get("h2");
+    }
+
     stepName() {
         return cy.get(".text-body-2");
     }

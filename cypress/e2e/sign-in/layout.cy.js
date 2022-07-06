@@ -9,7 +9,7 @@ describe("Layout", () => {
     });
 
     context("Sign In form", () => {
-        it("should properly display the correct text in the form switcher section", () => {
+        it("should display the correct text in the form switcher section", () => {
             signinPage
                 .haveAccountText()
                 .should("be.visible")
