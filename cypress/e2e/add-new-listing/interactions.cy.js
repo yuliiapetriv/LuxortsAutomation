@@ -509,78 +509,115 @@ describe("Add New Listing Page", () => {
             // });
         });
 
-        it("should be able to set Pricing & discounts for a new listing", () => {
-            cy.intercept("PUT", "**/pricing").as(
-                "submitPricingAndDiscountsStep"
-            );
-            cy.visit(
-                `${ADD_NEW_LISTING_URL}/pricing-and-discounts/${listingId}`
-            );
+        // it("should be able to set Pricing & discounts for a new listing", () => {
+        //     cy.intercept("PUT", "**/pricing").as(
+        //         "submitPricingAndDiscountsStep"
+        //     );
+        //     cy.visit(
+        //         `${ADD_NEW_LISTING_URL}/pricing-and-discounts/${listingId}`
+        //     );
 
-            // const setPrice = ({ inputElement, value }) => {
-            //     inputElement()
-            //         .clear()
-            //         .type(value)
-            //         .should("have.value", `$${value} / per night`);
-            // };
+        //     const setPrice = ({ inputElement, value }) => {
+        //         inputElement()
+        //             .clear()
+        //             .type(value)
+        //             .should("have.value", `$${value} / per night`);
+        //     };
 
-            // const setDiscounts = ({
-            //     discountType,
-            //     inputElement,
-            //     value,
-            //     price,
-            //     dayCounts,
-            // }) => {
-            //     inputElement()
-            //         .clear()
-            //         .type(value)
-            //         .should("have.value", `${value}% off`);
-            //     inputElement()
-            //         .parent()
-            //         .parent()
-            //         .next()
-            //         .find(".subline-message")
-            //         .should(
-            //             "contain",
-            //             `${
-            //                 discountType.charAt(0).toUpperCase() +
-            //                 discountType.slice(1)
-            //             } price with ${value}% discount: $${(
-            //                 (price * dayCounts * value) /
-            //                 100
-            //             ).toFixed(1)}`
-            //         );
-            // };
+        //     const setDiscounts = ({
+        //         discountType,
+        //         inputElement,
+        //         value,
+        //         price,
+        //         dayCounts,
+        //     }) => {
+        //         inputElement()
+        //             .clear()
+        //             .type(value)
+        //             .should("have.value", `${value}% off`);
+        //         inputElement()
+        //             .parent()
+        //             .parent()
+        //             .next()
+        //             .find(".subline-message")
+        //             .should(
+        //                 "contain",
+        //                 `${
+        //                     discountType.charAt(0).toUpperCase() +
+        //                     discountType.slice(1)
+        //                 } price with ${value}% discount: $${(
+        //                     (price * dayCounts * value) /
+        //                     100
+        //                 ).toFixed(1)}`
+        //             );
+        //     };
 
-            // const setCharges = ({ inputElement, value }) => {
-            //     inputElement()
-            //         .clear()
-            //         .type(value)
-            //         .should("have.value", `$${value}`);
-            // };
+        //     const setCharges = ({ inputElement, value }) => {
+        //         inputElement()
+        //             .clear()
+        //             .type(value)
+        //             .should("have.value", `$${value}`);
+        //     };
 
-            // setPrice({
-            //     inputElement: addNewListingPage.basePriceInput,
-            //     value: 100,
-            // });
-            // setDiscounts({
-            //     discountType: "weekly",
-            //     inputElement: addNewListingPage.weeklyDiscountInput,
-            //     value: 0.5,
-            //     price: 100,
-            //     dayCounts: 7,
-            // });
-            // setDiscounts({
-            //     discountType: "monthly",
-            //     inputElement: addNewListingPage.mounthlyDiscountInput,
-            //     value: 2,
-            //     price: 100,
-            //     dayCounts: 31,
-            // });
-            // setCharges({
-            //     inputElement: addNewListingPage.cleaningFeeInput,
-            //     value: 5,
-            // });
-        });
+        //     setPrice({
+        //         inputElement: addNewListingPage.basePriceInput,
+        //         value: 100,
+        //     });
+        //     setDiscounts({
+        //         discountType: "weekly",
+        //         inputElement: addNewListingPage.weeklyDiscountInput,
+        //         value: 0.5,
+        //         price: 100,
+        //         dayCounts: 7,
+        //     });
+        //     setDiscounts({
+        //         discountType: "monthly",
+        //         inputElement: addNewListingPage.mounthlyDiscountInput,
+        //         value: 2,
+        //         price: 100,
+        //         dayCounts: 31,
+        //     });
+        //     setCharges({
+        //         inputElement: addNewListingPage.cleaningFeeInput,
+        //         value: 5,
+        //     });
+        //     addNewListingPage.nextButton().click();
+        //     cy.wait("@submitPricingAndDiscountsStep").then((interception) => {
+        //         const responseBody = interception.response.body;
+        //         assert.equal(interception.response.statusCode, "200");
+        //         assert.equal(responseBody.data.type, "listing_pricing");
+        //         assert.equal(responseBody.data.attributes.price_per_day, 100);
+        //         assert.equal(responseBody.data.attributes.weekly_discount, 0.5);
+        //         assert.equal(responseBody.data.attributes.mounthly_discount, 2);
+        //         assert.equal(responseBody.data.attributes.extra_charges, 5);
+        //     });
+        // });
+
+        // it("should be able to publish a new listing", () => {
+        //     cy.intercept("PUT", "**/status").as("publishListing");
+        //     cy.visit(`${ADD_NEW_LISTING_URL}/publish/${listingId}`);
+        //     cy.contains(AddNewListingTexts.PublishListingButton).click();
+        //     addNewListingPage.modalWindow().should("be.visible");
+        //     addNewListingPage
+        //         .modalWindowTitle()
+        //         .should("be.visible")
+        //         .and("have.text", AddNewListingTexts.PublishModalWindowTitle);
+        //     cy.wait("@publishListing").then((interception) => {
+        //         const responseBody = interception.response.body;
+        //         assert.equal(interception.response.statusCode, "200");
+        //         assert.equal(
+        //             responseBody.data.attributes.application_step,
+        //             "finished"
+        //         );
+        //         assert.equal(
+        //             responseBody.data.attributes.status,
+        //             "on_moderation"
+        //         );
+        //     });
+        //     cy.contains(AddNewListingTexts.GoToListingsButton).click();
+        //     cy.location().should((loc) => {
+        //         expect(loc.pathname).to.eq("/dashboard/listings");
+        //     });
+        // });
     });
 });

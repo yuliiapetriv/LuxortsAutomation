@@ -242,4 +242,12 @@ export default class {
     cleaningFeeLabel() {
         return cy.get('label[for="extraCharges"]');
     }
+
+    modalWindow() {
+        return cy.get(".ant-modal-content");
+    }
+
+    modalWindowTitle() {
+        return cy.get(".ant-modal-title");
+    }
 }

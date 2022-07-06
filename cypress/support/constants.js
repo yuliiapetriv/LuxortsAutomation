@@ -138,4 +138,7 @@ export const AddNewListingTexts = {
     BookInAdvance: "3 Months In Advance",
     BookingApprovalPolicy: "Instant Book",
     CancellationPolicy: "Moderate",
+    PublishModalWindowTitle: "Congrats! Your listing is now being reviewed",
+    PublishListingButton: "Publish listing",
+    GoToListingsButton: "Go to Listings",
 };
