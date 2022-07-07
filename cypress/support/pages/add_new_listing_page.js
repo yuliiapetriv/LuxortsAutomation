@@ -7,6 +7,10 @@ export default class {
         return cy.get("h2");
     }
 
+    subTitle() {
+        return cy.get(".new-listing__subtitle");
+    }
+
     stepName() {
         return cy.get(".text-body-2");
     }
@@ -21,6 +25,14 @@ export default class {
             .children()
             .children()
             .last("button");
+    }
+
+    backButton() {
+        return cy
+            .get(".new-listing__footer")
+            .children()
+            .children()
+            .first("button");
     }
 
     // Property Type Step
@@ -47,6 +59,24 @@ export default class {
 
     plusButton() {
         return cy.get("span[aria-label='Increase Value']");
+    }
+
+    // Accommodation Step
+
+    guestsNumberLabel() {
+        return cy.get('label[for="guestsNumber"]');
+    }
+
+    bedroomsNumberLabel() {
+        return cy.get('label[for="listingBedrooms"]');
+    }
+
+    bedsNumberLabel() {
+        return cy.get('label[for="bedsAmount"]');
+    }
+
+    bathroomsNumberLabel() {
+        return cy.get('label[for="listingBathrooms"]');
     }
 
     // Location Step
@@ -114,6 +144,18 @@ export default class {
     newListingAddressMap() {
         return cy.get(".new-listing__map");
     }
+
+    // Amenities Step
+
+    additionalEntityTitleInput() {
+        return cy.get('input[id="additional.name"]');
+    }
+
+    additionalEntityDescriptionInput() {
+        return cy.get('input[id="additional.description"]');
+    }
+
+    // Capabilities Step
 
     form() {
         return cy.get("form");
