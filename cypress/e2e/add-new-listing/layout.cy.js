@@ -425,4 +425,245 @@ describe("Layout", () => {
                 .and("have.text", CommonTexts.BackButton);
         });
     });
+    context("Services step", () => {
+        beforeEach(() => {
+            cy.visit(`${ADD_NEW_LISTING_URL}/services/${listingId}`);
+        });
+        after(() => {
+            cy.getCookie("tokens").then((cookie) => {
+                const tokensObj = JSON.parse(decodeURIComponent(cookie.value));
+                authToken = tokensObj.access;
+                cy.request({
+                    method: "PUT",
+                    url: `${Cypress.env("backend_url")}${Cypress.env(
+                        "api_server"
+                    )}listings/${listingId}/services`,
+                    headers: {
+                        Authorization: authToken,
+                    },
+                    body: {
+                        listing_services: [],
+                    },
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+                });
+            });
+        });
+        it("should display the correct text in the header section", () => {
+            addNewListingPage
+                .stepName()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.ServicesStep);
+            addNewListingPage
+                .saveAndExitButton()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.SaveAndExitButton);
+        });
+        it("should properly display the step title", () => {
+            addNewListingPage
+                .mainHeader()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.ServicesStepHeader);
+        });
+        it("should properly display the Additional services section", () => {
+            addNewListingPage
+                .subTitle()
+                .last()
+                .should(
+                    "have.text",
+                    AddNewListingTexts.AdditionalServicesTitle
+                );
+            addNewListingPage
+                .additionalEntityTitleInput()
+                .should("be.visible")
+                .and(
+                    "have.attr",
+                    "placeholder",
+                    AddNewListingTexts.ServiceTitlePlaceholder
+                );
+            addNewListingPage
+                .additionalEntityDescriptionInput()
+                .should("be.visible")
+                .and(
+                    "have.attr",
+                    "placeholder",
+                    AddNewListingTexts.ServiceDescriptionPlaceholder
+                );
+            cy.contains("Free").should(
+                "have.class",
+                "ant-radio-wrapper-checked"
+            );
+            cy.contains("Paid").should(
+                "not.have.class",
+                "ant-radio-wrapper-checked"
+            );
+            cy.contains("button", CommonTexts.AddButton).should("be.disabled");
+        });
+        it("should properly display the Next and Back buttons", () => {
+            addNewListingPage
+                .nextButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.NextButton);
+            addNewListingPage
+                .backButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.BackButton);
+        });
+    });
+    context("Photos step", () => {
+        beforeEach(() => {
+            cy.visit(`${ADD_NEW_LISTING_URL}/photos/${listingId}`);
+        });
+        after(() => {
+            cy.getCookie("tokens").then((cookie) => {
+                const tokensObj = JSON.parse(decodeURIComponent(cookie.value));
+                authToken = tokensObj.access;
+                cy.request({
+                    method: "PUT",
+                    url: `${Cypress.env("backend_url")}${Cypress.env(
+                        "api_server"
+                    )}listings/${listingId}/listing_photos`,
+                    headers: {
+                        Authorization: authToken,
+                    },
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+                });
+            });
+        });
+        it("should display the correct text in the header section", () => {
+            addNewListingPage
+                .stepName()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.PhotosStep);
+            addNewListingPage
+                .saveAndExitButton()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.SaveAndExitButton);
+        });
+        it("should properly display the step title and description", () => {
+            addNewListingPage
+                .mainHeader()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.PhotosStepHeader);
+            addNewListingPage
+                .mainHeader()
+                .next()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.PhotosStepDescription);
+        });
+        it("should properly display upload button and drag'n'drop area", () => {
+            addNewListingPage
+                .form()
+                .find("button")
+                .should("have.text", "Upload photos");
+            addNewListingPage
+                .form()
+                .find("button")
+                .next()
+                .should("have.text", "Or");
+            addNewListingPage
+                .form()
+                .find("button")
+                .next()
+                .next()
+                .should("have.text", "Drag your items in");
+        });
+        it("should properly display the Next and Back buttons", () => {
+            addNewListingPage
+                .nextButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.NextButton);
+            addNewListingPage
+                .backButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.BackButton);
+        });
+    });
+    context("Description step", () => {
+        beforeEach(() => {
+            cy.visit(`${ADD_NEW_LISTING_URL}/description/${listingId}`);
+        });
+        after(() => {
+            cy.getCookie("tokens").then((cookie) => {
+                const tokensObj = JSON.parse(decodeURIComponent(cookie.value));
+                authToken = tokensObj.access;
+                cy.request({
+                    method: "PUT",
+                    url: `${Cypress.env("backend_url")}${Cypress.env(
+                        "api_server"
+                    )}listings/${listingId}/listing_description`,
+                    headers: {
+                        Authorization: authToken,
+                    },
+                    body: {
+                        title: "Cobblestone Ranch Cabin",
+                        description: "",
+                        hidden_title: "",
+                    },
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+                });
+            });
+        });
+        it("should display the correct text in the header section", () => {
+            addNewListingPage
+                .stepName()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.DescriptionStep);
+            addNewListingPage
+                .saveAndExitButton()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.SaveAndExitButton);
+        });
+        it("should properly display the step title and description", () => {
+            addNewListingPage
+                .mainHeader()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.DescriptionStepHeader);
+            addNewListingPage
+                .mainHeader()
+                .next()
+                .should("be.visible")
+                .and(
+                    "have.text",
+                    AddNewListingTexts.DescriptionStepDescription
+                );
+        });
+        it("should properly display the Listing Title input", () => {
+            addNewListingPage
+                .listingTitleLabel()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.ListingTitleLabel);
+        });
+        it("should properly display the Hidden Title input", () => {
+            addNewListingPage
+                .hiddenTitleLabel()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.ListingHiddenTitleLabel);
+            addNewListingPage
+                .alertMessage()
+                .should("be.visible")
+                .and(
+                    "have.text",
+                    AddNewListingTexts.ListingHiddenTitleALertMessage
+                );
+        });
+        it("should properly display the Listing Description input", () => {
+            addNewListingPage
+                .descriptionLabel()
+                .should("be.visible")
+                .and("have.text", AddNewListingTexts.ListingDecriptionLabel);
+        });
+        it("should properly display the Next and Back buttons", () => {
+            addNewListingPage
+                .nextButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.NextButton);
+            addNewListingPage
+                .backButton()
+                .should("be.visible")
+                .and("have.text", CommonTexts.BackButton);
+        });
+    });
 });

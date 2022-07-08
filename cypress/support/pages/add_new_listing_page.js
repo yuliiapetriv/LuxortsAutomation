@@ -145,7 +145,7 @@ export default class {
         return cy.get(".new-listing__map");
     }
 
-    // Amenities Step
+    // Amenities / Capabilities / Service Step
 
     additionalEntityTitleInput() {
         return cy.get('input[id="additional.name"]');
@@ -154,8 +154,6 @@ export default class {
     additionalEntityDescriptionInput() {
         return cy.get('input[id="additional.description"]');
     }
-
-    // Capabilities Step
 
     form() {
         return cy.get("form");
@@ -168,6 +166,8 @@ export default class {
     radioButton() {
         return cy.get('input[type="radio"]');
     }
+
+    // Photos Step
 
     uploadPhotosInput() {
         return cy.get(
@@ -193,6 +193,8 @@ export default class {
             .last();
     }
 
+    // Description Step
+
     listingTitleInput() {
         return cy.get("input[name='title']");
     }
@@ -215,6 +217,10 @@ export default class {
 
     descriptionLabel() {
         return cy.get("label[for='description']");
+    }
+
+    alertMessage() {
+        return cy.get('div[role="alert"]');
     }
 
     houseRulesSwitchesContainer() {
